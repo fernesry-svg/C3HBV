@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Behavior & Victimology</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #000; /* Black text */
+            background-color: #fff; /* White background */
+            line-height: 1.8;
+        }
+
+        /* Navigation */
+        nav {
+            /* 1. Positioning */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            
+            /* 2. Glassmorphism Core */
+            background: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
+            backdrop-filter: blur(12px);    /* The frosted glass effect */
+            -webkit-backdrop-filter: blur(12px); /* Support for Safari */
+            
+            /* 3. Border & Depth */
+            border-bottom: 2px solid rgba(255, 191, 0, 0.7); /* Amber semi-transparent border */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            
+            /* 4. Layout */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border: 2px solid #545454;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background-color: #FFBF00;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 191, 0, 0.3);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            margin-right: 20px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background-color: #FFBF00;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: radial-gradient(circle, rgba(26,46,35,0) 0%, rgba(0,0,0,0.8) 100%), #1a2e23;
+            color: #F0F0F0; /* Chalk White */
+            text-align: center;
+            padding: 385px 20px;
+           
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #FFBF00; /* Amber */
+        }
+
+        .hero p {
+            font-size: clamp(0.95rem, 3vw, 1.2rem);
+            opacity: 0.9;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 120px 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            color: #FFBF00;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        section h2::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 4px;
+            background-color: #FFBF00; /* Amber underline */
+            margin: 10px auto;
+        }
+
+         section h4 {
+            color: #000000;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        section h4::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 4px;
+            background-color: #FFBF00; /* Amber underline */
+            margin: 10px auto;
+        }
+
+        /* About Boxes */
+        .definition-box {
+            background-color: #fff;
+            padding: 50px;
+            margin: 40px 0;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            box-shadow: 10px 10px 0px #FFBF00; /* Amber Shadow */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .definition-box h3 {
+            flex-basis: 100%;
+            color: #FFBF00;
+            font-size: 1.8rem;
+            border-left: 5px solid #000;
+            padding-left: 15px;
+        }
+
+        .box-image-container {
+            flex: 0 0 40%;
+            overflow: hidden;
+            border: 2px solid #000;
+            border-radius: 4px;
+            max-width: 100%;
+        }
+
+        .box-image-container img {
+            width: 100%;
+            display: block;
+            transition: transform 0.6s ease;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .definition-box:hover .box-image-container img {
+            transform: scale(1.1);
+        }
+
+        .definition-box p {
+            flex: 1;
+            min-width: 300px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        /* Victimology Box Special Styling */
+        .victimology-box {
+            background: linear-gradient(135deg, #121212 0%, #2a2a2a 100%);
+            color: #F0F0F0;
+        }
+
+        .victimology-box h3 {
+            color: #F0F0F0;
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left-color: #FFBF00;
+        }
+
+        .victimology-box p {
+            color: #E0E0E0;
+        }
+
+        .victimology-box .box-image-container img {
+            filter: grayscale(100%) contrast(1.2);
+        }
+
+        /* Learning Grid */
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .learn-column {
+            background: #fff;
+            border: 1px solid #000;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .learn-column h3 {
+            background-color: #000;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .learn-column ul {
+            list-style: none;
+            padding: 30px;
+        }
+
+        .learn-column li {
+            padding: 18px 0;
+            border-bottom: 1px solid #eee;
+            hyphens: auto;
+        }
+
+        .learn-column li strong {
+            color: #FFBF00;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 60px;
+        }
+
+        th, td {
+            padding: 20px;
+            text-align: left;
+            border: 1px solid #000;
+        }
+
+        th {
+            background-color: #FFBF00;
+            color: #1B3022;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Trivia Section - Flip Cards */
+        .trivia-section {
+            background-color: #000000;
+            color: #fff;
+            padding: clamp(40px, 8vw, 100px) clamp(20px, 5vw, 20px);
+            text-align: center;
+        }
+
+        .trivia-header {
+            color: #FFBF00;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 10px rgba(255, 191, 0, 0.3);
+        }
+
+        .trivia-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Card Animation Logic */
+        .flip-card {
+            background-color: transparent;
+            height: auto;
+            min-height: 200px;
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(15px, 3vw, 25px);
+            border: 2px solid #FFBF00;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            min-height: 200px;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        .flip-card-front {
+            background-color: #1a1a1a;
+            color: #FFBF00;
+        }
+
+        .flip-card-back {
+            background-color: #FFBF00;
+            color: #1a1a1a;
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front p, .flip-card-back p {
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Video Section */
+        .video-container {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: #f4f4f4;
+            border-top: 4px solid #FFBF00;
+        }
+
+        .video-container h3 {
+            color: #FFBF00 !important;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #fff;
+            color: #000;
+            padding: 80px 20px 40px;
+            border-top: 5px solid #000;
+        }
+
+        .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
+
+        .footer-grid > div {
+            border-top: 2px solid #FFBF00;
+            padding-top: 30px;
+        }
+
+        .members-list {
+            flex: 1.5;
+            padding-bottom: 40px;
+        }
+
+        .members-list h3 {
+            margin-bottom: 25px;
+            color: #FFBF00;
+        }
+
+        .members-list ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .members-list li {
+            font-size: 0.95rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .contact-form {
+            flex: 1;
+        }
+
+        .contact-form h3 {
+            margin-bottom: 10px;
+        }
+
+        .contact-form p {
+            margin-bottom: 20px;
+            color: #666;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: #FFBF00;
+            box-shadow: 0 0 0 3px rgba(255, 191, 0, 0.15);
+        }
+
+        .contact-form button {
+            background-color: #FFBF00;
+            color: #1B3022;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .contact-form button:hover {
+            background-color: #1B3022;
+            color: #FFBF00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .bottom-bar {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        /* Mobile Responsive Styles */
+        @media (max-width: 767px) {
+            nav {
+                padding: 12px 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background-color: #000;
+                padding: 20px 0;
+                gap: 0;
+                border-bottom: 2px solid #FFBF00;
+                width: 100%;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav li {
+                border-bottom: 1px solid #333;
+            }
+
+            nav li:last-child {
+                border-bottom: none;
+            }
+
+            nav a {
+                display: block;
+                padding: 15px 20px;
+                font-size: 0.75rem;
+                letter-spacing: 0.5px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .definition-box {
+                padding: 30px;
+                flex-direction: column !important;
+            }
+
+            .box-image-container {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .definition-box h3 {
+                font-size: clamp(1.2rem, 4vw, 1.6rem);
+            }
+
+            .definition-box p {
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+
+            .learn-column {
+                margin-bottom: 20px;
+            }
+
+            .learn-column h3 {
+                font-size: clamp(1rem, 3vw, 1.2rem);
+            }
+
+            .learn-column li {
+                font-size: clamp(0.85rem, 2vw, 0.95rem);
+            }
+
+            table {
+                font-size: clamp(0.8rem, 2vw, 0.9rem);
+            }
+
+            th, td {
+                padding: 12px;
+            }
+
+            .footer-grid {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .members-list ul {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .members-list li {
+                font-size: clamp(0.85rem, 2vw, 0.95rem);
+            }
+
+            .contact-form input,
+            .contact-form textarea {
+                font-size: clamp(0.9rem, 2vw, 1rem);
+            }
+
+            .video-container iframe {
+                width: 100%;
+                height: auto;
+                min-height: 250px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .hamburger {
+                display: none;
+            }
+
+            nav ul {
+                display: flex !important;
+            }
+
+            .definition-box {
+                flex-direction: row;
+            }
+
+            .definition-box h3 {
+                font-size: 1.8rem;
+            }
+
+            .box-image-container {
+                flex: 0 0 40%;
+            }
+
+            .definition-box p {
+                flex: 1;
+                min-width: 300px;
+            }
+
+            .footer-grid {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            .flip-card {
+                min-height: 250px;
+            }
+        }
+
+        /* Tablet View: 2 columns for balanced layout */
+        @media (min-width: 600px) {
+            .trivia-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        /* Desktop View: 3 columns (2 rows of 3) */
+        @media (min-width: 1024px) {
+            .trivia-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 25px;
+            }
+
+            .flip-card-front, .flip-card-back {
+                padding: 25px;
+                font-size: 1rem;
+            }
+        }    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#learn">Learnings</a></li>
+            <li><a href="#trivia">Trivia</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <header class="hero" id="home">
+        <h1>Crim 3: Human Behavior & Victimology</h1>
+        <p>Comprehensive Course Module | Academic Year 2026</p>
+    </header>
+
+    <section id="about">
+        <h2>Foundational Concepts</h2>
+        
+        <div class="definition-box">
+            <h3>Understanding Human Behavior</h3>
+            <div class="box-image-container">
+                <img src="images/Human-Behavior.png" alt="Human Behavior Diagram">
+            </div>
+            <p>The study of <b>Human Behavior</b> in a criminology context involves an exhaustive analysis of the conduct, actions, and reactions of individuals under various social and psychological stimuli. It is an interdisciplinary field that merges psychology, sociology, and biology. By examining why individuals deviate from social norms, criminologists can identify precursors to criminal activity.</p>
+        </div>
+
+        <div class="definition-box victimology-box" style="flex-direction: row-reverse; box-shadow: -10px 10px 0px #000;">
+            <h3>The Science of Victimology</h3>
+            <div class="box-image-container">
+                <img src="images/Victimology.jpg" alt="Victimology Study">
+            </div>
+            <p><b>Victimology</b> has evolved into a robust scientific field. It specifically investigates the relationship between the victim and the offender, the experience of being victimized, and the subsequent interaction with legal institutions. Unlike traditional criminology which focuses on the "offender," victimology prioritizes the "victim's" rights and recovery process.</p>
+        </div>
+    </section>
+
+    <section id="learn" style="background-color: #fcfcfc;">
+        <h4>In-Depth Course Learnings</h4>
+        
+        <div class="learn-grid">
+            <div class="learn-column">
+                <h3>Behavioral Models</h3>
+                <ul>
+                    <li><strong>Trait Theory:</strong> Predictors of criminal conduct through personality characteristics.</li>
+                    <li><strong>Social Disorganization:</strong> Crime as a product of broken social structures.</li>
+                    <li><strong>Differential Association:</strong> Learning techniques and motives through social interaction.</li>
+                    <li><strong>Biological Positivism:</strong> How physical factors alter behavioral responses.</li>
+                </ul>
+            </div>
+
+            <div class="learn-column">
+                <h3>Victimology Perspectives</h3>
+                <ul>
+                    <li><strong>Routine Activity Theory:</strong> Convergence of offender, target, and lack of guardian.</li>
+                    <li><strong>Victim Precipitation:</strong> Examining how behavior might trigger a criminal event.</li>
+                    <li><strong>Lifestyle Exposure:</strong> Daily habits dictating victimization risk.</li>
+                    <li><strong>Critical Victimology:</strong> State and law contributions to marginalized groups.</li>
+                </ul>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Domain of Study</th>
+                    <th>Human Behavior Context</th>
+                    <th>Victimology Context</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Psychological</b></td>
+                    <td>Offender personality and mental health.</td>
+                    <td>Victim mental health impact and recovery.</td>
+                </tr>
+                <tr>
+                    <td><b>Environmental</b></td>
+                    <td>Peer pressure and poverty drivers.</td>
+                    <td>Location and lack of security vulnerabilities.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="video-container">
+            <h3 style="margin-bottom:20px; color:#FFBF00;">Multimedia Resource</h3>
+            <iframe width="100%" height="450" style="max-width:800px; border: 10px solid #000;" src="https://www.youtube.com/embed/vo4pMVb0R6M" title="Victimology Overview" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section id="trivia" class="trivia-section">
+        <h2 class="trivia-header">Trivia</h2>
+        <div class="trivia-grid">
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <p>What are the three elements of Routine Activity Theory?</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>A motivated offender, a suitable target, and the absence of a capable guardian.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <p>What does Trait Theory suggest about criminals?</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>That specific physical, biological, or mental traits can predispose someone to crime.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <p>Define Victim Precipitation.</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>A theory where the victim's own behavior or characteristics act as a catalyst for the crime.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <p>What is the main focus of Victimology?</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>The scientific study of victims, including the relationship between victims and offenders.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <p>Is Empathy a key cognitive factor in human behavior?</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>True. It is the ability to understand and share the feelings of another, crucial for social behavior.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <p>Who is considered the "Father of Victimology"?</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Benjamin Mendelsohn, who pioneered the scientific study of victims.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="members-list">
+                <h3>The Creative Group</h3>
+                <ul>
+                    <li>Villagonzalo, Cristine P.</li>
+                    <li>Sauro, Roy John E.</li>
+                    <li>Flores, Gillary Jirken B.</li>
+                    <li>Sanoria, Neil Jyan B.</li>
+                    <li>Oliveros, Dionesio</li>
+                    <li>Perater, Ephrem C.</li>
+                    <li>Tombo, Mark Anton C.</li>
+                    <li>Labongan, Junrel</li>
+                    <li>Delos Reyes, Razel S.</li>
+                    <li>Gumintad, Jao S.</li>
+                    <li>Orienza, Arnel S.</li>
+                </ul>
+            </div>
+
+            <div class="contact-form">
+                <h3>Send an Inquiry</h3>
+                <p>Have questions about our research? Reach out below!</p>
+                <form>
+                    <input type="text" placeholder="Full Name" required>
+                    <textarea placeholder="Message..." rows="4"></textarea>
+                    <button type="submit">Submit Request</button>
+                </form>
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <p>&copy; 2026 Human Behavior & Victimology Project | Department of Criminology | All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.querySelector('nav ul');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = event.target.closest('nav');
+            if (!isClickInsideNav && navMenu.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
